@@ -1,24 +1,27 @@
 // src/Components/Sidebar/Sidebar.tsx
-import { LayoutDashboard, Truck } from "lucide-react";
-// import logo from "../../assets/logo1.png";
+import Dashboard from "../../Modules/Dashboard/Dashboard"; 
+import Delivery from "../../Modules/Delivery/Delivery"; 
+import logo1 from './images/logo1.png';
+import Produit from "../../Modules/Produits/Produit";
+import Client from "../../Modules/Clients/Client";
+import Parametre from "../../Modules/Parametre/Parametre";
 
 const Sidebar = () => {
   return (
-    <div className="w-72 h-screen bg-[rgba(215,187,245,1)] p-6 flex flex-col">
-      <div className="flex flex-col items-center mb-10">
-        {/* <img src={logo} alt="Logo" className="w-20 h-20 mb-2" /> */}
-        <h1 className="text-xl font-bold text-center text-gray-800">TV DATA</h1>
-      </div>
+    <div className="w-72 h-screen bg-white p-6 flex flex-col">
+      {/* Section supérieure : logo et nom de l'entreprise */}
+          <div className="flex flex-row items-center -mt-4 mb-4 gap-3">
+      <img src={logo1} alt="Logo" className="w-15 h-15" />
+      <h1 className="text-2xl font-bold text-gray-800">TV DATA</h1>
+    </div>
 
-      <nav className="flex flex-col space-y-6">
-        <a href="#" className="flex items-center space-x-3 text-lg text-gray-800 font-medium">
-          <LayoutDashboard className="w-6 h-6" />
-          <span>Tableau de bord</span>
-        </a>
-        <a href="#" className="flex items-center space-x-3 text-lg text-gray-800 font-medium">
-          <Truck className="w-6 h-6" />
-          <span>Livraison</span>
-        </a>
+
+    <nav className="flex flex-col space-y-4 mt-8">
+        <Dashboard />
+        <Delivery />
+        <Produit />
+        <Client />
+        <Parametre />
       </nav>
     </div>
   );

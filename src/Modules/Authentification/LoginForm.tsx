@@ -1,10 +1,9 @@
-// src/Modules/Authentification/LoginForm.tsx
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';  
+import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -12,12 +11,12 @@ const LoginForm = () => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    navigate('/anse');  
+    navigate('/anse');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-end bg-white pr-0">
-      <div className="w-[700px] h-[600px] bg-white rounded-xl p-12 border-2 border-white  ml-[-400px]">
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 sm:px-0 mt-16 sm:mt-0">
+      <div className="w-full sm:w-[700px] h-auto sm:h-[600px] bg-white rounded-xl p-8 sm:p-12 border-2 border-white sm:ml-[-400px]">
         <h1 className="text-3xl font-bold text-center text-black-500 mb-10">
           Connectez-vous
         </h1>
@@ -42,7 +41,7 @@ const LoginForm = () => {
             <input
               id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="••••••••••••"
+              placeholder="****************"
               className="w-full px-5 py-4 pr-14 text-lg border-2 border-gray-200 rounded-lg focus:outline-none focus:border-indigo-500"
             />
             
