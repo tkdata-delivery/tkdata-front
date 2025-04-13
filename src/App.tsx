@@ -6,6 +6,8 @@ import DashboardLayout from './layouts/DashboardLayout';
 import DashboardStatsGrid from './Components/Card/DashboardStatsGrid';
 import Dashboard2 from './Components/FinancialOverviewDashboard/FinancialOverviewDashboard';
 import FullDashboard from './Components/FullDashboard/FullDashboard';
+import ClientsTable from './Components/Client/ClientTable';
+import DeliveryProductSelection from './Components/Livraison/DeliveryProductSelection';
 
 
 const App = () => {
@@ -30,6 +32,20 @@ const App = () => {
 
             </DashboardLayout>
           } />      
+
+          <Route path="/clients" element={
+            <DashboardLayout>
+              <ClientsTable />
+
+            </DashboardLayout>
+          } />  
+
+        <Route path="/livraison" element={
+            <DashboardLayout>
+              <DeliveryProductSelection />
+
+            </DashboardLayout>
+          } /> 
       </Routes>
       
     </Router>
