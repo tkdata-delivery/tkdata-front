@@ -8,6 +8,7 @@ import Dashboard2 from './Components/FinancialOverviewDashboard/FinancialOvervie
 import FullDashboard from './Components/FullDashboard/FullDashboard';
 import ClientsTable from './Components/Client/ClientTable';
 import DeliveryProductSelection from './Components/Livraison/DeliveryProductSelection';
+import Delivery from './Components/Livraison/Delivery';
 
 
 const App = () => {
@@ -43,6 +44,13 @@ const App = () => {
         <Route path="/livraison" element={
             <DashboardLayout>
               <DeliveryProductSelection />
+
+            </DashboardLayout>
+          } /> 
+
+<Route path="/livraison2" element={
+            <DashboardLayout>
+              <Delivery />
 
             </DashboardLayout>
           } /> 
