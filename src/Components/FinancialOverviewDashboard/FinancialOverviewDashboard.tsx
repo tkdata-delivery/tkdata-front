@@ -41,7 +41,7 @@ const FinancialOverviewDashboard = () => {
         growthPercentage="+3.4%"
         growthLabel="from last period"
         chartData={revenueData}
-        highlightedDay="Vendredi"
+        
       />
       
       {/* Affichage du graphique des statistiques de paiement */}

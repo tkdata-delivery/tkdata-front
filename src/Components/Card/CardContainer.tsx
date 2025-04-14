@@ -1,7 +1,7 @@
 // CardContainer.tsx
 
 // Importation des modules nécessaires depuis React et Ant Design
-import React from "react";
+
 import { Card } from "antd";
 
 /**

@@ -1,201 +1,171 @@
-// RecentDeliveries.jsx
+import { useState } from 'react';
+import { MoreVertical, ChevronRight } from 'lucide-react';
 
-// Importation des composants nécessaires depuis Ant Design
-import { Card, Typography, Button, Table, Tag, Dropdown, Menu, Avatar } from 'antd';
-import { ArrowRightOutlined, MoreOutlined } from '@ant-design/icons';
+// Types des statuts
+type PaymentStatus = 'Payé' | 'Non payé' | 'Pas totalement';
+type DeliveryStatus = 'Terminer' | 'En cour';
 
-const { Title, Text } = Typography;
+// Interface pour une livraison
+interface Delivery {
+  id: string;
+  clientInitials: string;
+  clientName: string;
+  quantity: number;
+  paymentStatus: PaymentStatus;
+  amount: string;
+  status: DeliveryStatus;
+}
 
-/**
- * Données simulées représentant les livraisons récentes.
- * Chaque objet contient :
- * - un identifiant unique,
- * - le nom et les initiales du client,
- * - la quantité commandée,
- * - le statut de paiement,
- * - le montant total,
- * - et le statut de la commande.
- */
-const deliveriesData = [
-  {
-    key: '1',
-    id: '17mars2025_steveadam_bonaberi_12:34',
-    clientName: 'Steve Adam',
-    clientInitials: 'SA',
-    quantity: 150,
-    paymentStatus: 'Payé',
-    amount: '350,000 cfa',
-    status: 'Terminé',
-  },
-  // D'autres entrées peuvent être ajoutées ici
-];
+const RecentDeliveries = () => {
+  const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
-/**
- * Composant `RecentDeliveries`
- * 
- * Ce composant affiche une carte contenant un tableau des livraisons les plus récentes.
- * Il permet de visualiser les informations de commande, client, statut de paiement, montant,
- * statut de livraison, et d'accéder à un menu d'actions.
- * 
- * Props :
- * - title : titre affiché en haut de la carte (par défaut : "Livraisons récentes")
- * - data : tableau des données de livraison à afficher (par défaut : `deliveriesData`)
- * - className : classes CSS supplémentaires à appliquer à la carte
- */
-const RecentDeliveries = ({
-  title = "Livraisons récentes",
-  data = deliveriesData,
-  className = "",
-}) => {
-  
-  /**
-   * Retourne une étiquette colorée selon le statut de livraison.
-   * @param {string} status - Statut de la commande
-   */
-  const getStatusTag = (status) => {
-    const statusStyles = {
-      'Terminé': { color: 'green', bg: 'bg-green-100' },
-      'En cours': { color: 'orange', bg: 'bg-orange-100' },
-      'Annulé': { color: 'red', bg: 'bg-red-100' },
-    };
-    const style = statusStyles[status] || { color: 'gray', bg: 'bg-gray-100' };
-
-    return (
-      <Tag className={`${style.bg} text-${style.color}-600 border-0 rounded-md py-1 px-3`}>
-        {status}
-      </Tag>
-    );
+  const toggleMenu = (id: string) => {
+    setOpenMenuId((prev) => (prev === id ? null : id));
   };
 
-  /**
-   * Retourne une étiquette stylisée pour le statut de paiement.
-   * @param {string} status - Statut de paiement (ex: "Payé")
-   */
-  const getPaymentTag = (status) => (
-    <Tag className="bg-white border border-purple-300 text-purple-600 rounded-md py-1 px-4">
-      {status}
-    </Tag>
-  );
+  const [deliveries] = useState<Delivery[]>([
+    {
+      id: '17mars2025_steveadam_bonaberi_12:34',
+      clientInitials: 'SA',
+      clientName: 'Steve Adam',
+      quantity: 150,
+      paymentStatus: 'Payé',
+      amount: '350.000 cfa',
+      status: 'Terminer',
+    },
+    {
+      id: '18mars2025_steveadam_bonaberi_14:15',
+      clientInitials: 'SA',
+      clientName: 'Steve Adam',
+      quantity: 100,
+      paymentStatus: 'Non payé',
+      amount: '250.000 cfa',
+      status: 'En cour',
+    },
+    {
+      id: '19mars2025_steveadam_bonaberi_10:30',
+      clientInitials: 'SA',
+      clientName: 'Steve Adam',
+      quantity: 80,
+      paymentStatus: 'Pas totalement',
+      amount: '200.000 cfa',
+      status: 'En cour',
+    },
+    {
+      id: '20mars2025_steveadam_bonaberi_09:00',
+      clientInitials: 'SA',
+      clientName: 'Steve Adam',
+      quantity: 60,
+      paymentStatus: 'Pas totalement',
+      amount: '150.000 cfa',
+      status: 'En cour',
+    },
+  ]);
 
-  /**
-   * Retourne un avatar avec les initiales du client, coloré selon des classes prédéfinies.
-   * @param {string} initials - Initiales du client
-   */
-  const getClientAvatar = (initials) => {
-    const colors = {
-      'SA': 'bg-green-200 text-green-700',
-      'JP': 'bg-purple-200 text-purple-700',
-      'KS': 'bg-orange-200 text-orange-700',
-    };
-    const colorClass = colors[initials] || 'bg-gray-200 text-gray-700';
-
-    return (
-      <Avatar size={32} className={`flex items-center justify-center font-medium ${colorClass}`}>
-        {initials}
-      </Avatar>
-    );
+  const getPaymentStatusClasses = (status: PaymentStatus) => {
+    switch (status) {
+      case 'Payé':
+        return 'bg-purple-50 text-purple-700 border border-purple-200';
+      case 'Non payé':
+        return 'bg-red-50 text-red-700 border border-red-200';
+      case 'Pas totalement':
+        return 'bg-yellow-50 text-yellow-700 border border-yellow-200';
+      default:
+        return '';
+    }
   };
 
-  /**
-   * Menu contextuel affiché lorsqu'on clique sur l'icône d'actions (3 points)
-   */
-  const actionMenu = (
-    <Menu>
-      <Menu.Item key="1">Voir les détails</Menu.Item>
-      <Menu.Item key="2">Modifier</Menu.Item>
-      <Menu.Item key="3" danger>Annuler</Menu.Item>
-    </Menu>
-  );
-
-  /**
-   * Définition des colonnes du tableau
-   */
-  const columns = [
-    {
-      title: 'Commande ID',
-      dataIndex: 'id',
-      key: 'id',
-      sorter: true,
-      render: (text) => <Text className="text-sm text-gray-800">{text}</Text>,
-    },
-    {
-      title: 'Nom du client',
-      dataIndex: 'clientName',
-      key: 'clientName',
-      sorter: true,
-      render: (text, record) => (
-        <div className="flex items-center">
-          {getClientAvatar(record.clientInitials)}
-          <Text className="ml-2 text-sm">{text}</Text>
-        </div>
-      ),
-    },
-    {
-      title: 'Quantité de produit',
-      dataIndex: 'quantity',
-      key: 'quantity',
-      sorter: true,
-      render: (text) => <Text className="text-sm text-gray-800">{text}</Text>,
-    },
-    {
-      title: 'Statut de paiement',
-      dataIndex: 'paymentStatus',
-      key: 'paymentStatus',
-      sorter: true,
-      render: (status) => getPaymentTag(status),
-    },
-    {
-      title: 'Montant',
-      dataIndex: 'amount',
-      key: 'amount',
-      sorter: true,
-      render: (text) => <Text className="text-sm font-medium">{text}</Text>,
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      sorter: true,
-      render: (status) => getStatusTag(status),
-    },
-    {
-      title: 'Action',
-      key: 'action',
-      render: () => (
-        <Dropdown overlay={actionMenu} placement="bottomRight">
-          <Button 
-            type="text" 
-            icon={<MoreOutlined />}
-            className="text-gray-500 hover:text-gray-700" 
-          />
-        </Dropdown>
-      ),
-    },
-  ];
+  const getDeliveryStatusClasses = (status: DeliveryStatus) => {
+    switch (status) {
+      case 'Terminer':
+        return 'bg-green-100 text-green-800';
+      case 'En cour':
+        return 'bg-blue-100 text-blue-800';
+      default:
+        return '';
+    }
+  };
 
   return (
-    <Card className={`shadow-sm ${className}`} bodyStyle={{ padding: '20px' }}>
-      {/* En-tête de la carte avec titre et bouton d’accès */}
+    <div className="p-6 bg-white rounded-lg shadow-sm max-w-8xl mx-auto">
       <div className="flex justify-between items-center mb-6">
-        <Title level={4} className="m-0">{title}</Title>
-        <Button 
-          type="link" 
-          className="text-purple-600 flex items-center" 
-          icon={<ArrowRightOutlined className="ml-1" />}
-        >
+        <h2 className="text-xl font-bold text-gray-900">Livraisons récentes</h2>
+        <a href="#" className="text-purple-600 flex items-center text-sm hover:underline">
           Accéder à la page de livraison
-        </Button>
+          <ChevronRight className="ml-1 h-4 w-4" />
+        </a>
       </div>
 
-      {/* Tableau des livraisons récentes */}
-      <Table 
-        columns={columns} 
-        dataSource={data} 
-        pagination={false}
-        className="custom-table"
-        size="middle"
-      />
-    </Card>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="text-left text-gray-500 text-sm">
+              <th className="pb-4 font-medium">Commande ID</th>
+              <th className="pb-4 font-medium">Nom du client</th>
+              <th className="pb-4 font-medium">Quantité</th>
+              <th className="pb-4 font-medium">Paiement</th>
+              <th className="pb-4 font-medium">Montant</th>
+              <th className="pb-4 font-medium">Statut</th>
+              <th className="pb-4 font-medium">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {deliveries.map((delivery, index) => (
+              <tr key={index} className="border-t border-gray-100 hover:bg-gray-50 transition">
+                <td className="py-4 text-sm text-gray-700">{delivery.id}</td>
+                <td className="py-4">
+                  <div className="flex items-center">
+                    <div className="bg-green-100 text-green-800 w-8 h-8 rounded-md flex items-center justify-center mr-2 font-bold">
+                      {delivery.clientInitials}
+                    </div>
+                    <span className="text-sm">{delivery.clientName}</span>
+                  </div>
+                </td>
+                <td className="py-4 text-sm text-gray-700">{delivery.quantity}</td>
+                <td className="py-4">
+                  <span
+                    className={`px-3 py-1 rounded-md text-sm font-medium ${getPaymentStatusClasses(
+                      delivery.paymentStatus
+                    )}`}
+                  >
+                    {delivery.paymentStatus}
+                  </span>
+                </td>
+                <td className="py-4 text-sm text-gray-700">{delivery.amount}</td>
+                <td className="py-4">
+                  <span
+                    className={`px-3 py-1 rounded-md text-sm font-medium ${getDeliveryStatusClasses(
+                      delivery.status
+                    )}`}
+                  >
+                    {delivery.status}
+                  </span>
+                </td>
+                <td className="py-4 relative">
+                  <button
+                    className="text-gray-500 hover:text-gray-700"
+                    onClick={() => toggleMenu(delivery.id)}
+                  >
+                    <MoreVertical className="h-5 w-5" />
+                  </button>
+
+                  {openMenuId === delivery.id && (
+                    <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-md z-10">
+                      <ul className="text-sm text-gray-700">
+                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Afficher les détails</li>
+                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Modifier</li>
+                        <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Annuler</li>
+                        <li className="px-4 py-2 hover:bg-gray-100 text-red-600 cursor-pointer">Supprimer</li>
+                      </ul>
+                    </div>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 

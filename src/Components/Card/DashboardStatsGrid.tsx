@@ -1,59 +1,63 @@
 // DashboardStatsGrid.jsx
 
-// Importation de React et des composants nécessaires
-import React from 'react';
 import DashboardCard from './DashboardCard';
-import { DollarOutlined, UserOutlined, ShoppingOutlined } from '@ant-design/icons';
+import { 
+  DollarOutlined, 
+  CarOutlined,
+  TeamOutlined,
+  AppstoreOutlined
+} from '@ant-design/icons';
 
-/**
- * Composant `DashboardStatsGrid`
- * 
- * Ce composant représente une section de tableau de bord contenant plusieurs cartes résumant
- * différentes données clés (chiffre d'affaires, utilisateurs, commandes, etc.).
- * 
- * Il organise les cartes dans une grille responsive (1 colonne sur petit écran, 3 colonnes sur écran moyen et plus).
- */
 const DashboardStatsGrid = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Carte : Chiffre d'affaires */}
       <DashboardCard 
         title="Chiffre d'affaires total"
         value="952.6k cfa"
         percentage="+8.5%"
-        description="Rapport de semaines dernières"
+        description="Par rapport au mois dernier"
+        isPositive={true} // Flèche vers le haut et couleur verte
         icon={<DollarOutlined />}
-      />
-
-      {/* Carte duplicata pour exemple (même contenu) */}
-      <DashboardCard 
-        title="Chiffre d'affaires total"
-        value="952.6k cfa"
-        percentage="+8.5%"
-        description="Rapport de semaines dernières"
-        icon={<DollarOutlined />}
+        iconBackground="bg-green-50"
+        iconColor="text-green-500"
+        indicatorColor="bg-green-500"
       />
       
-      {/* Carte : Nouveaux utilisateurs */}
+      {/* Carte : Livraisons totales */}
       <DashboardCard 
-        title="Nouveaux utilisateurs"
+        title="Livraisons totales"
         value="1,245"
-        percentage="+12.4%"
-        description="Ce mois-ci"
-        icon={<UserOutlined />}
+        percentage="-12.4%" // Changé de + à -
+        description="Par rapport au mois dernier"
+        isPositive={false} // Changé à false pour flèche vers le bas et couleur rouge
+        icon={<CarOutlined />}
         iconBackground="bg-blue-50"
         iconColor="text-blue-500"
         indicatorColor="bg-blue-500"
       />
       
-      {/* Carte : Commandes (baisse de performance) */}
+      {/* Carte : Clients Total */}
       <DashboardCard 
-        title="Commandes"
+        title="Clients Total"
+        value="450"
+        percentage="+3.2%" // Changé de - à +
+        description="Par rapport au mois dernier"
+        isPositive={true} // Changé à true pour flèche vers le haut et couleur verte
+        icon={<TeamOutlined />}
+        iconBackground="bg-amber-50"
+        iconColor="text-amber-500"
+        indicatorColor="bg-amber-500"
+      />
+
+      {/* Carte : Produits Total */}
+      <DashboardCard 
+        title="Produits Total"
         value="450"
         percentage="-3.2%"
         description="Par rapport au mois dernier"
         isPositive={false} // Flèche vers le bas et couleur rouge
-        icon={<ShoppingOutlined />}
+        icon={<AppstoreOutlined />}
         iconBackground="bg-amber-50"
         iconColor="text-amber-500"
         indicatorColor="bg-amber-500"

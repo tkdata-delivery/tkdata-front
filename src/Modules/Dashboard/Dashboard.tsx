@@ -13,7 +13,7 @@ const Dashboard = () => {
             fontWeight: 'bold',
           }}
         >
-          Tableau de bord
+          Tableau de bord 
         </span>
       </button>
     </a>
