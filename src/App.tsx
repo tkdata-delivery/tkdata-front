@@ -1,57 +1,31 @@
 // src/App.tsx
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import AuthentificationPage from './Modules/Authentification';
-import Anse from './Components/anse';
 import DashboardLayout from './layouts/DashboardLayout';
-import DashboardStatsGrid from './Components/Card/DashboardStatsGrid';
-import Dashboard2 from './Components/FinancialOverviewDashboard/FinancialOverviewDashboard';
-import FullDashboard from './Components/FullDashboard/FullDashboard';
-import ClientsTable from './Components/Client/ClientTable';
-import DeliveryProductSelection from './Components/Livraison/DeliveryProductSelection';
-
+import Dashboard from './Modules/Dashboard';
+import NewDelivery from './Modules/Delivery/NewDelivery';
+import { Delivery } from './Modules/Delivery';
+// Suppression de l'import inutilisé
+import ClientSelection from './Modules/Delivery/ClientSelection';
 
 const App = () => {
   return (
     <Router>
       <Routes>
-  
         <Route path="/" element={<AuthentificationPage />} />
-        <Route path="/anse" element={<Anse />} />
-  
-        <Route path="/dashboard1" element={
-            <DashboardLayout>
-              <DashboardStatsGrid />
-              <Dashboard2 />
-
-            </DashboardLayout>
-          } />
-
-            <Route path="/dashboard" element={
-            <DashboardLayout>
-              <FullDashboard />
-
-            </DashboardLayout>
-          } />      
-
-          <Route path="/clients" element={
-            <DashboardLayout>
-              <ClientsTable />
-
-            </DashboardLayout>
-          } />  
-
-        <Route path="/livraison" element={
-            <DashboardLayout>
-              <DeliveryProductSelection />
-
-            </DashboardLayout>
-          } /> 
+        
+        <Route path="/dashboard" element={<DashboardLayout/>}>
+          <Route index element={<Navigate to={'home'} />}/>
+          <Route path='home' element={<Dashboard/>}/>
+          <Route path='delivery'>
+            <Route index element={<Delivery/>}/>
+            <Route path='new-delivery' element={<NewDelivery/>}/>
+            <Route path='new-delivery/client-selection' element={<ClientSelection/>}/>
+          </Route>
+        </Route> 
       </Routes>
-      
     </Router>
   );
 };
 
 export default App;
-
-
