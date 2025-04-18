@@ -1,11 +1,10 @@
-// src/App.tsx
+
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import AuthentificationPage from './Modules/Authentification';
 import DashboardLayout from './layouts/DashboardLayout';
 import Dashboard from './Modules/Dashboard';
 import NewDelivery from './Modules/Delivery/NewDelivery';
-import { Delivery } from './Modules/Delivery';
-// Suppression de l'import inutilisé
+import Delivery from './Modules/Delivery';
 import ClientSelection from './Modules/Delivery/ClientSelection';
 
 const App = () => {

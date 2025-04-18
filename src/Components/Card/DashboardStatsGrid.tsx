@@ -1,5 +1,6 @@
 // DashboardStatsGrid.jsx
-
+import { useState, useEffect } from 'react';
+import { Carousel } from 'antd';
 import DashboardCard from './DashboardCard';
 import { 
   DollarOutlined, 
@@ -9,59 +10,86 @@ import {
 } from '@ant-design/icons';
 
 const DashboardStatsGrid = () => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {/* Carte : Chiffre d'affaires */}
-      <DashboardCard 
-        title="Chiffre d'affaires total"
-        value="952.6k cfa"
-        percentage="+8.5%"
-        description="Par rapport au mois dernier"
-        isPositive={true} // Flèche vers le haut et couleur verte
-        icon={<DollarOutlined />}
-        iconBackground="bg-green-50"
-        iconColor="text-green-500"
-        indicatorColor="bg-green-500"
-      />
-      
-      {/* Carte : Livraisons totales */}
-      <DashboardCard 
-        title="Livraisons totales"
-        value="1,245"
-        percentage="-12.4%" // Changé de + à -
-        description="Par rapport au mois dernier"
-        isPositive={false} // Changé à false pour flèche vers le bas et couleur rouge
-        icon={<CarOutlined />}
-        iconBackground="bg-blue-50"
-        iconColor="text-blue-500"
-        indicatorColor="bg-blue-500"
-      />
-      
-      {/* Carte : Clients Total */}
-      <DashboardCard 
-        title="Clients Total"
-        value="450"
-        percentage="+3.2%" // Changé de - à +
-        description="Par rapport au mois dernier"
-        isPositive={true} // Changé à true pour flèche vers le haut et couleur verte
-        icon={<TeamOutlined />}
-        iconBackground="bg-amber-50"
-        iconColor="text-amber-500"
-        indicatorColor="bg-amber-500"
-      />
+  const [isMobile, setIsMobile] = useState(false);
 
-      {/* Carte : Produits Total */}
-      <DashboardCard 
-        title="Produits Total"
-        value="450"
-        percentage="-3.2%"
-        description="Par rapport au mois dernier"
-        isPositive={false} // Flèche vers le bas et couleur rouge
-        icon={<AppstoreOutlined />}
-        iconBackground="bg-amber-50"
-        iconColor="text-amber-500"
-        indicatorColor="bg-amber-500"
-      />
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const cardsData = [
+    {
+      title: "Chiffre d'affaires total",
+      value: "952.6k cfa",
+      percentage: "+8.5%",
+      description: "Par rapport au mois dernier",
+      isPositive: true,
+      icon: <DollarOutlined />,
+      iconBackground: "bg-green-50",
+      iconColor: "text-green-500",
+      indicatorColor: "bg-green-500"
+    },
+    {
+      title: "Livraisons totales",
+      value: "1,245",
+      percentage: "-12.4%",
+      description: "Par rapport au mois dernier",
+      isPositive: false,
+      icon: <CarOutlined />,
+      iconBackground: "bg-blue-50",
+      iconColor: "text-blue-500",
+      indicatorColor: "bg-blue-500"
+    },
+    {
+      title: "Clients Total",
+      value: "450",
+      percentage: "+3.2%",
+      description: "Par rapport au mois dernier",
+      isPositive: true,
+      icon: <TeamOutlined />,
+      iconBackground: "bg-amber-50",
+      iconColor: "text-amber-500",
+      indicatorColor: "bg-amber-500"
+    },
+    {
+      title: "Produits Total",
+      value: "450",
+      percentage: "-3.2%",
+      description: "Par rapport au mois dernier",
+      isPositive: false,
+      icon: <AppstoreOutlined />,
+      iconBackground: "bg-amber-50",
+      iconColor: "text-amber-500",
+      indicatorColor: "bg-amber-500"
+    }
+  ];
+
+  return (
+    <div className="w-full">
+      {isMobile ? (
+        <Carousel 
+          dots={true} 
+          dotPosition="bottom"
+          className="px-4 py-2"
+        >
+          {cardsData.map((card, index) => (
+            <div key={index} className="px-2">
+              <DashboardCard {...card} />
+            </div>
+          ))}
+        </Carousel>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {cardsData.map((card, index) => (
+            <DashboardCard key={index} {...card} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

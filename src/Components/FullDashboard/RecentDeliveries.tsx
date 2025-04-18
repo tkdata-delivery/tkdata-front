@@ -87,9 +87,9 @@ const RecentDeliveries = () => {
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow-sm max-w-8xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-gray-900">Livraisons récentes</h2>
+    <div className="p-4 sm:p-6 bg-white rounded-lg shadow-sm max-w-8xl mx-auto">
+      <div className="flex justify-between items-center mb-4 sm:mb-6">
+        <h2 className="text-lg sm:text-xl font-bold text-gray-900">Livraisons récentes</h2>
         <a href="#" className="text-purple-600 flex items-center text-sm hover:underline">
           Accéder à la page de livraison
           <ChevronRight className="ml-1 h-4 w-4" />
@@ -97,44 +97,47 @@ const RecentDeliveries = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="text-left text-gray-500 text-sm">
+        <table className="w-full text-left text-xs sm:text-sm">
+          <thead className="text-gray-500">
+            <tr>
               <th className="pb-4 font-medium">Commande ID</th>
               <th className="pb-4 font-medium">Nom du client</th>
-              <th className="pb-4 font-medium">Quantité</th>
+              <th className="pb-4 font-medium hidden md:table-cell">Quantité</th>
               <th className="pb-4 font-medium">Paiement</th>
-              <th className="pb-4 font-medium">Montant</th>
-              <th className="pb-4 font-medium">Statut</th>
+              <th className="pb-4 font-medium hidden md:table-cell">Montant</th>
+              <th className="pb-4 font-medium hidden sm:table-cell">Statut</th>
               <th className="pb-4 font-medium">Action</th>
             </tr>
           </thead>
           <tbody>
             {deliveries.map((delivery, index) => (
-              <tr key={index} className="border-t border-gray-100 hover:bg-gray-50 transition">
-                <td className="py-4 text-sm text-gray-700">{delivery.id}</td>
+              <tr
+                key={index}
+                className="border-t border-gray-100 hover:bg-gray-50 transition text-xs sm:text-sm"
+              >
+                <td className="py-4 break-all">{delivery.id}</td>
                 <td className="py-4">
                   <div className="flex items-center">
-                    <div className="bg-green-100 text-green-800 w-8 h-8 rounded-md flex items-center justify-center mr-2 font-bold">
+                    <div className="bg-green-100 text-green-800 w-7 h-7 sm:w-8 sm:h-8 rounded-md flex items-center justify-center mr-2 font-bold text-xs sm:text-sm">
                       {delivery.clientInitials}
                     </div>
-                    <span className="text-sm">{delivery.clientName}</span>
+                    <span>{delivery.clientName}</span>
                   </div>
                 </td>
-                <td className="py-4 text-sm text-gray-700">{delivery.quantity}</td>
+                <td className="py-4 hidden md:table-cell">{delivery.quantity}</td>
                 <td className="py-4">
                   <span
-                    className={`px-3 py-1 rounded-md text-sm font-medium ${getPaymentStatusClasses(
+                    className={`px-2 py-0.5 sm:px-3 sm:py-1 rounded-md font-medium ${getPaymentStatusClasses(
                       delivery.paymentStatus
                     )}`}
                   >
                     {delivery.paymentStatus}
                   </span>
                 </td>
-                <td className="py-4 text-sm text-gray-700">{delivery.amount}</td>
-                <td className="py-4">
+                <td className="py-4 hidden md:table-cell">{delivery.amount}</td>
+                <td className="py-4 hidden sm:table-cell">
                   <span
-                    className={`px-3 py-1 rounded-md text-sm font-medium ${getDeliveryStatusClasses(
+                    className={`px-2 py-0.5 sm:px-3 sm:py-1 rounded-md font-medium ${getDeliveryStatusClasses(
                       delivery.status
                     )}`}
                   >
@@ -148,7 +151,6 @@ const RecentDeliveries = () => {
                   >
                     <MoreVertical className="h-5 w-5" />
                   </button>
-
                   {openMenuId === delivery.id && (
                     <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-md z-10">
                       <ul className="text-sm text-gray-700">

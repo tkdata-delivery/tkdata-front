@@ -1,122 +1,120 @@
-// Ajout d'un effet de clic extérieur pour fermer le menu dans OrdersTable.tsx
-import React, { useState, useEffect, useRef } from 'react';
+
+// Delivery.tsx - Composant principal qui assemble tous les composants
+import React, { useState, useEffect } from 'react';
 //import { Order } from './types';
-import { Order } from '../../Components/Delivery/types';
-import { SearchBar } from '../../Components/Delivery/SearchBar';
-import { ActionButtons } from '../../Components/Delivery/ActionButtons';
-import { OrderTable } from '../../Components/Delivery/OrderTable';
-import { Pagination } from '../../Components/Delivery/Pagination';
+import { Order } from './indexdelivary/types';
+//import SearchBar from './SearchBar';
+import SearchBar from './indexdelivary/SearchBar';
+///import ActionButtons from './ActionButtons';
+import ActionButtons from './indexdelivary/ActionButtons';
+//import OrderTable from './OrderTable';
+import OrderTable from './indexdelivary/OrderTable';
+//import MobileCards from './MobileCards';
+import MobileCards from './indexdelivary/MobileCards';
+//import Pagination from './Pagination';
+import Pagination from './indexdelivary/Pagination';
 import PageTitle from '../../Components/PageTitle';
-//import { SearchBar } from './SearchBar';
 
+const Delivery: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(2);
+  const totalPages = 8;
+  const totalItems = 32;
+  const [openActionMenu, setOpenActionMenu] = useState<number | null>(null);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1024);
+  
+  // Déterminer si on est sur mobile
+  const isMobile = windowWidth < 768;
+  
+  // Données d'exemple
+  const orders: Order[] = Array(10).fill(null).map((_, index) => ({
+    id: '17mars2025_steveadam_bonaberi_1234',
+    clientInitials: 'SA',
+    clientName: 'Steve Adam',
+    quantity: 150,
+    paymentStatus: index === 1 ? 'Non payé' : index === 2 ? 'Pas totalement' : 'Payé',
+    amount: '350.000 cfa',
+    date: '17 mars 2025',
+    status: 'En cours'
+  }));
 
-export const Delivery: React.FC = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
-  
-  // Les données d'exemple...
-  const orders: Order[] = [
-
-    {
-      id: '17mars2025_steveadam_bonalert_1234',
-      client: { initials: 'SA', name: 'Steve Adam' },
-      quantity: 150,
-      paymentStatus: 'Payé',
-      amount: '350,000 cfa',
-      date: '17 mars 2025',
-      status: 'En cour',
-    },
-  
-    {
-      id: '17mars2025_steveadam_bonalert_1235',
-      client: { initials: 'SA', name: 'Tchio Anse' },
-      quantity: 150,
-      paymentStatus: 'Non payé',
-      amount: '350,000 cfa',
-      date: '17 mars 2025',
-      status: 'En cour',
-    },
-  
-  
-    // Les commandes...
-  ];
-
-  // Effet pour fermer le menu lors d'un clic à l'extérieur
+  // Gérer le redimensionnement de la fenêtre
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setActiveMenu(null);
-      }
-    }
-    
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
     };
-  }, [menuRef]);
 
-  const toggleMenu = (orderId: string) => {
-    if (activeMenu === orderId) {
-      setActiveMenu(null);
-    } else {
-      setActiveMenu(orderId);
-    }
-  };
-
-  const handleAction = (action: string, orderId: string) => {
-    console.log(`Action ${action} pour la commande ${orderId}`);
-    // Ici vous pouvez ajouter la logique pour chaque action
-    switch(action) {
-      case 'afficher':
-        console.log(`Affichage des détails pour ${orderId}`);
-        break;
-      case 'modifier':
-        console.log(`Modification de ${orderId}`);
-        break;
-      case 'annuler':
-        console.log(`Annulation de ${orderId}`);
-        break;
-      case 'supprimer':
-        console.log(`Suppression de ${orderId}`);
-        break;
-    }
-    
-    // Fermer le menu après action
-    setActiveMenu(null);
-  };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
+  const toggleActionMenu = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (openActionMenu === index) {
+      setOpenActionMenu(null);
+    } else {
+      setOpenActionMenu(index);
+    }
+  };
+
+  // Fermer le menu lorsqu'on clique ailleurs sur la page
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setOpenActionMenu(null);
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
-      <PageTitle>Livraison</PageTitle>
-
-      <div className="bg-white p-6 w-full rounded-[10px]" ref={menuRef}>
-      <div className="mb-4 flex items-center justify-between">
-        <SearchBar />
-        <ActionButtons />
+    <PageTitle>Livraison</PageTitle>
+    <div className="bg-white p-3 md:p-6 min-h-screen rounded-[10px]">
+      <div className="bg-white rounded-lg shadow-sm p-3 md:p-4">
+        {/* Header avec recherche et boutons */}
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-6 space-y-4 md:space-y-0">
+          {/* Barre de recherche */}
+          <SearchBar />
+          
+          {/* Boutons d'action */}
+          <ActionButtons isMobile={isMobile} />
+        </div>
+        
+        {/* Affichage conditionnel selon la taille d'écran */}
+        {isMobile ? (
+          <MobileCards 
+            orders={orders} 
+            openActionMenu={openActionMenu} 
+            toggleActionMenu={toggleActionMenu}
+          />
+        ) : (
+          <OrderTable 
+            orders={orders} 
+            openActionMenu={openActionMenu} 
+            toggleActionMenu={toggleActionMenu}
+          />
+        )}
+        
+        {/* Pagination */}
+        <Pagination 
+          currentPage={currentPage} 
+          totalPages={totalPages} 
+          totalItems={totalItems} 
+          isMobile={isMobile}
+          onPageChange={handlePageChange}
+        />
       </div>
-
-      <OrderTable 
-        orders={orders} 
-        activeMenu={activeMenu} 
-        onToggleMenu={toggleMenu}
-        onAction={handleAction}
-      />
-
-      <Pagination 
-        currentPage={currentPage} 
-        totalPages={8} 
-        totalItems={32} 
-        onPageChange={handlePageChange} 
-      />
     </div>
-
     </>
   );
 };
 
-
+export default Delivery;

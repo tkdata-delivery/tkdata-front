@@ -9,28 +9,7 @@ import CardHeader from './CardHeader';
 import CardValue from './CardValue';
 import CardFooter from './CardFooter';
 
-/**
- * Composant `DashboardCard`
- * 
- * Ce composant regroupe et structure les sous-composants d’une carte de tableau de bord :
- * - un en-tête (titre + icône),
- * - une valeur principale avec indicateur coloré,
- * - un pied de carte avec un pourcentage d’évolution et une description.
- * 
- * Il est entièrement personnalisable via les props.
- * 
- * Props :
- * - title : titre affiché dans l'en-tête (par défaut : 'Chiffre d'affaires total')
- * - value : valeur principale affichée (par défaut : '952.6k cfa')
- * - percentage : variation affichée en bas (par défaut : '+8.5%')
- * - description : texte explicatif du pourcentage (par défaut : 'Rapport de semaines dernières')
- * - isPositive : indique si le pourcentage est positif (affiche une flèche verte vers le haut)
- * - icon : icône à afficher dans l'en-tête (par défaut : graphique)
- * - iconBackground : couleur de fond de l’icône
- * - iconColor : couleur de l’icône
- * - indicatorColor : couleur de la barre verticale (à côté de la valeur)
- * - className : classes CSS supplémentaires pour le conteneur principal
- */
+
 const DashboardCard = ({
   title = 'Chiffre d\'affaires total',
   value = '952.6k cfa',

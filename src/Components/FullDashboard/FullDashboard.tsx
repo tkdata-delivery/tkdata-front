@@ -9,14 +9,9 @@ import RecentDeliveries from './RecentDeliveries';
 
 
 
-/**
- * Composant principal `FullDashboard`
- * Il regroupe toutes les sections du tableau de bord dans une disposition responsive
- * organisée par lignes avec Tailwind CSS (grilles + marges).
- */
 const FullDashboard = () => {
   return (
-    <div className="grid grid-cols-1">
+    <div className="grid grid-cols-1 -translate-y-7">
       {/* Troisième ligne : produits les plus vendus, meilleurs clients, zones de vente */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <BestSellingProducts />

@@ -1,9 +1,8 @@
-// composant principal des produits de selection 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PageTitle from '../../Components/PageTitle';
 import CategoryCarousel from '../../Components/componentproduitselection/CategoryCarousel';
-import SearchBar from '../../Components/componentproduitselection/SearchBar';// Correction ici : importation par défaut
+import SearchBar from '../../Components/componentproduitselection/SearchBar';
 import ProductGrid from '../../Components/componentproduitselection/ProductGrid';
 
 interface Product {
@@ -64,35 +63,51 @@ const ProductSelection: React.FC = () => {
   return (
     <>
       <PageTitle>Livraison</PageTitle>
-      <div className="max-w-6xl mx-auto p-6 bg-white rounded-[5px] min-h-screen pb-15 -translate-x-4">
-        <div className="text-indigo-600 text-sm mb-2">
-          <p className="text-indigo-600 text-sm">
-            <Link to="/dashboard/delivery">Livraison</Link> &gt;{' '}
-            <span className="text-black font-normal">Sélectionner les produits</span>
-          </p>
+      <div className="max-w-6xl mx-auto p-4 sm:p-6 bg-white rounded-[10px] min-h-screen pb-15 ml-1">
+        {/* Fil d'Ariane */}
+        <div className="text-indigo-600 mb-4 sm:mb-2">
+          <nav className="text-xs sm:text-sm">
+            <Link to="/dashboard/delivery" className="hover:text-indigo-800">
+              Livraison
+            </Link>{' '}
+            &gt;{' '}
+            <span className="text-gray-600">Sélectionner les produits</span>
+          </nav>
         </div>
+
         <PageTitle>Sélectionnez les produits de la livraison</PageTitle>
 
-        <CategoryCarousel categories={categories} />
-
-        {/* Utilisation de SearchBar avec les bonnes props */}
-        <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-
-        <div className="text-purple-600 rounded-lg px-4 py-2 translate-x-115 -translate-y-18">
-          <span>{selectedProducts.length} articles sélectionnés</span>
+        {/* Carrousel des catégories */}
+        <div className="mx-4 sm:mx-0">
+          <CategoryCarousel categories={categories} />
         </div>
 
-        <Link to="client-selection">
-          <button className="bg-purple-500 text-white px-8 py-2 rounded-lg translate-x-230 -translate-y-28 cursor-pointer">
-            Continuer
-          </button>
-        </Link>
+        {/* Recherche + Sélection + Bouton */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6 mb-6 px-2 sm:px-0 mr-12 ">
+          <div className="w-full sm:w-auto">
+            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+          </div>
 
-        <ProductGrid
-          products={products}
-          selectedProducts={selectedProducts}
-          toggleProductSelection={toggleProductSelection}
-        />
+          <div className="text-purple-600 text-sm text-center sm:text-left ">
+            {selectedProducts.length} articles sélectionnés
+          </div>
+
+          <Link 
+            to="client-selection" 
+            className="w-full sm:w-auto bg-purple-500 hover:bg-purple-600 text-white text-center px-9 py-2 rounded-lg transition-colors duration-200"
+          >
+            Continuer
+          </Link>
+        </div>
+
+        {/* Grille de produits */}
+        <div className="px-2 sm:px-0">
+          <ProductGrid
+            products={products}
+            selectedProducts={selectedProducts}
+            toggleProductSelection={toggleProductSelection}
+          />
+        </div>
       </div>
     </>
   );

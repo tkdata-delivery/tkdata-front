@@ -1,23 +1,17 @@
-// src/Components/Sidebar/Dashboard.tsx
 
-import DashboardStatsGrid from "../../Components/Card/DashboardStatsGrid";
 import { RevenueDashboard } from "../../Components/Diagramme";
 import FullDashboard from "../../Components/FullDashboard/FullDashboard";
+import DashboardStats from "../../Components/Livraison/DashboardStats/DashboardStats";
+import PageTitle from "../../Components/PageTitle";
+
 
 const Dashboard = () => {
   return (
     <>
-    <h1
-      className="text-2xl font-bold"
-      style={{
-        fontFamily: 'Times New Roman, serif',
-        fontWeight: 'bold',
-      }}
-    >
-      Tableau de bord
-    </h1>
+   <PageTitle>Tableau de bord</PageTitle>
     <div className="mt-6">
-      <DashboardStatsGrid />
+       {/* <DashboardStatsGrid />  */}
+      <DashboardStats />
     </div>
     <div className="mt-6">
       <RevenueDashboard />

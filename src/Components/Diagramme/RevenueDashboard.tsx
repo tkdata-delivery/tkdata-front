@@ -5,7 +5,7 @@ import { PaymentStatsChart } from './PaymentStatsChart';
 
 const RevenueDashboard: React.FC = () => {
   return (
-    <div className="flex w-full gap-4">
+    <div className="flex flex-col lg:flex-row w-full gap-4 -translate-y-7">
       <RevenueChart />
       <PaymentStatsChart />
     </div>

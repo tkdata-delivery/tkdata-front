@@ -2,6 +2,7 @@
 
 
 
+
 .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -9,3 +10,14 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+
+
+
+  /* Ajouter dans votre fichier CSS global */
+.ant-carousel .slick-slide {
+  padding: 8px 0;
+}
+
+.ant-carousel .slick-dots-bottom {
+  bottom: -10px;
+}
